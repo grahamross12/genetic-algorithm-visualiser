@@ -7,7 +7,7 @@ function App() {
   return (
     <React.Fragment>
       <NavBar />
-      <main className="container">
+      <main className="container grid-box">
         <Grid />
       </main>
     </React.Fragment>

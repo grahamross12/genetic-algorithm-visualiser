@@ -1,3 +1,9 @@
 body {
   background-color: #ddd !important;
 }
+
+.grid-box {
+  justify-content: centre;
+  display: flex;
+  background-color: #ddd;
+}
