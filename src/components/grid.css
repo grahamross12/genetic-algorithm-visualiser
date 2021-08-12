@@ -1,16 +1,61 @@
 .grid {
-  background-color: rgb(218, 218, 218);
-  margin: 0 auto;
+  position: relative;
+  border-bottom: 1px solid white;
+  border-right: 1px solid white;
+  width: calc(26 * 26px + 1px);
+  float: right;
 }
 
 .row {
-  height: 15px;
+  height: 26px;
   margin: 0 !important;
 }
 
 .cell {
-  width: 15px !important;
-  height: 15px !important;
-  outline: 1px solid rgb(255, 255, 255);
+  width: 26px !important;
+  height: 26px !important;
+  border-left: 1px solid rgb(255, 255, 255);
+  border-top: 1px solid rgb(255, 255, 255);
+  outline: none;
   padding: 0 !important;
+}
+
+.cell-active {
+  background-color: rgb(20, 126, 108) !important;
+}
+
+.dot {
+  position: relative;
+  height: 15px;
+  left: 5px;
+  top: 2px;
+  width: 15px;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 50%;
+  display: inline-block;
+  z-index: 11;
+}
+
+.dot :hover {
+  background-color: rgba(0, 0, 0, 1) !important;
+  z-index: 11;
+}
+
+button {
+  z-index: 20;
+  margin: 5px !important;
+}
+
+.line {
+  position: absolute;
+  z-index: 10;
+  stroke: rgb(20, 126, 108);
+  stroke-width: 2px;
+}
+.svg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: calc(20 * 26px);
+  width: 100%;
 }
