@@ -1,4 +1,31 @@
 #sidebarBox {
   background-color: rgb(66, 104, 107);
   height: 100%;
+  padding: 15px;
+  position: relative;
+  min-width: 280px;
+  height: 625px;
+}
+
+p {
+  color: white;
+  margin-bottom: 5px !important;
+}
+
+.propContainer {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.slider {
+  width: 240px;
+}
+
+.showInfo {
+  margin-top: 30px;
+  font-size: 1.2rem;
+}
+
+.buttons {
+  margin-bottom: 30px;
 }

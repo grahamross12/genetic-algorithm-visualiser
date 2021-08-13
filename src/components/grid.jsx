@@ -1,25 +1,14 @@
 import React, { Component } from "react";
 import "./grid.css";
-import GeneticAlgorithm from "../genetic-algorithm.js";
-
-// Define parameters for the genetic algorithm
-const ITERATIONS = 100;
-const POP = 20;
-const CHILDREN = 10;
-const WINNERS = 5;
-const MUTATION_PROB = 0.1;
 
 class Grid extends Component {
   constructor(props) {
     super(props);
     this.activeCells = new Set();
-    this.GRID_WIDTH = 26;
-    this.GRID_HEIGHT = 20;
-    this.intervalTime = 10;
+
     this.GRID_PIXELS = 26;
     this.state = {
-      grid: this.createGrid(this.GRID_WIDTH, this.GRID_HEIGHT),
-      active: this.activeCells,
+      grid: this.createGrid(this.props.GRID_WIDTH, this.props.GRID_HEIGHT),
       showLines: false,
       showInfo: false,
     };
@@ -35,44 +24,53 @@ class Grid extends Component {
                 <div
                   key={cellIdx}
                   id={cellIdx}
+                  onMouseEnter={() => this.handleHoverOn(cellValue)}
+                  onMouseLeave={this.handleHoverOff}
                   className="cell"
-                  onClick={() => this.activateCell(cellValue)}
+                  onClick={() => this.props.onUpdateCell(cellValue)}
                 >
-                  <span
-                    className={`dot ${
-                      this.activeCells.has(cellValue) ? "cell-active" : ""
-                    }`}
-                  ></span>
+                  <span className={this.handleDotClass(cellValue)}></span>
                 </div>
               ))}
             </div>
           ))}
-          {this.state.showLines ? this.handleAddLine() : <div></div>}
+          {this.props.solution ? this.handleAddLine() : <div></div>}
         </div>
-
-        {this.state.showInfo ? (
-          <div>
-            <p>Iteration: {this.state.iteration}</p>
-            <p>
-              Distance:{" "}
-              {Math.round(this.geneticAlgorithm.population[0].distance)}
-            </p>
-          </div>
-        ) : (
-          <p></p>
-        )}
       </React.Fragment>
     );
   }
 
+  handleDotClass = (cellValue) => {
+    if (this.props.activeCells.has(cellValue)) {
+      return "dot cell-active";
+    } else if (this.state.isHovered === cellValue) {
+      return "dot cell-hovered";
+    } else {
+      return "dot";
+    }
+  };
+
+  handleHoverOff = () => {
+    this.setState({ isHovered: null });
+  };
+
+  handleHoverOn = (cellValue) => {
+    this.setState({
+      isHovered: cellValue,
+    });
+  };
+
   handleAddLine = () => {
-    this.getSolution();
     let lines = [];
-    for (let i = 0; i < this.solution.length; i++) {
-      if (i !== this.solution.length - 1) {
-        lines.push(this.createLine(this.solution[i], this.solution[i + 1]));
+    for (let i = 0; i < this.props.solution.length; i++) {
+      if (i !== this.props.solution.length - 1) {
+        lines.push(
+          this.createLine(this.props.solution[i], this.props.solution[i + 1])
+        );
       } else {
-        lines.push(this.createLine(this.solution[i], this.solution[0]));
+        lines.push(
+          this.createLine(this.props.solution[i], this.props.solution[0])
+        );
       }
     }
     return lines;
@@ -80,8 +78,8 @@ class Grid extends Component {
 
   createLine = (p1, p2) => {
     let line = (
-      <div className="lineDiv">
-        <svg className="svg">
+      <div className="lineDiv" key={[p1, p2]}>
+        <svg className="svg" key={[p1, p2]}>
           <line
             key={[p1, p2]}
             x1={this.GRID_PIXELS / 2 + this.GRID_PIXELS * p1[0]}
@@ -96,29 +94,6 @@ class Grid extends Component {
     return line;
   };
 
-  nextGeneration = () => {
-    if (typeof this.geneticAlgorithm !== "undefined") {
-      this.geneticAlgorithm.nextGeneration();
-      this.handleAddLine();
-      this.setState({
-        showLines: true,
-        iteration: this.geneticAlgorithm.iteration,
-      });
-    }
-  };
-
-  clearGrid = () => {
-    this.activeCells.clear();
-    this.setState({ active: this.activeCells });
-    this.geneticAlgorithm = undefined;
-    this.clearLines();
-    clearInterval(this.interval);
-  };
-
-  clearLines = () => {
-    this.setState({ showLines: false, showInfo: false });
-  };
-
   createGrid(width, height) {
     let counter = 1;
     const grid = [];
@@ -131,54 +106,5 @@ class Grid extends Component {
     }
     return grid;
   }
-
-  start = () => {
-    this.points = [];
-    this.activeCells.forEach((id) => this.cellIdxToCoords(id));
-    this.geneticAlgorithm = new GeneticAlgorithm(
-      this.points,
-      ITERATIONS,
-      POP,
-      CHILDREN,
-      WINNERS,
-      MUTATION_PROB
-    );
-    console.log(this.activeCells);
-    this.setState({ showLines: true, showInfo: true });
-    this.interval = setInterval(() => {
-      this.nextGeneration();
-    }, this.intervalTime);
-  };
-
-  getSolution = () => {
-    // Obtain the first solution
-    let solution = [];
-    let indices = this.geneticAlgorithm.population[0].solution;
-    for (let i = 0; i < indices.length; i++) {
-      solution.push(this.geneticAlgorithm.points[indices[i]]);
-    }
-    this.solution = solution;
-  };
-
-  cellCoordsToIdx = (coords) => {
-    let idx = coords[1] * this.GRID_WIDTH;
-    idx += coords[0];
-    return idx;
-  };
-
-  cellIdxToCoords = (id) => {
-    let y = Math.floor((id - 1) / this.GRID_WIDTH);
-    let x = (id - 1) % this.GRID_WIDTH;
-    this.points.push([x, y]);
-  };
-
-  activateCell = (cellValue) => {
-    if (this.activeCells.has(cellValue)) {
-      this.setState({ active: this.activeCells.delete(cellValue) });
-    } else {
-      this.setState({ active: this.activeCells.add(cellValue) });
-    }
-  };
 }
-
 export default Grid;

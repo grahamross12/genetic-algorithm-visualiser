@@ -21,7 +21,7 @@
 }
 
 .cell-active {
-  background-color: rgb(20, 126, 108) !important;
+  background-color: rgba(20, 126, 108, 1) !important;
 }
 
 .dot {
@@ -36,8 +36,8 @@
   z-index: 11;
 }
 
-.dot :hover {
-  background-color: rgba(0, 0, 0, 1) !important;
+.cell-hovered {
+  background-color: rgba(20, 126, 108, 0.3) !important;
   z-index: 11;
 }
 
@@ -56,6 +56,6 @@ button {
   position: absolute;
   top: 0px;
   left: 0px;
-  height: calc(20 * 26px);
+  height: calc(24 * 26px);
   width: 100%;
 }

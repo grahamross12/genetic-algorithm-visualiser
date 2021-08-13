@@ -1,16 +1,14 @@
 export default class GeneticAlgorithm {
   points;
-  iterations;
   popSize;
   children;
   mutationProb;
   population;
   distanceMatrix;
   iteration;
-  constructor(points, iterations, popSize, children, winners, mutationProb) {
+  constructor(points, popSize, children, winners, mutationProb) {
     // Initialise the genetic algorithm class with the appropriate parameters
     this.points = points;
-    this.iterations = iterations;
     this.popSize = popSize;
     this.children = children;
     this.winners = winners;
@@ -199,7 +197,6 @@ let pointsSet = new Set([
 ]);
 let points = Array.from(pointsSet);
 
-const ITERATIONS = 100;
 const POP = 20;
 const CHILDREN = 10;
 const WINNERS = 5;
@@ -207,7 +204,6 @@ const MUTATION_PROB = 0.1;
 
 const geneticAlgorithm = new GeneticAlgorithm(
   points,
-  ITERATIONS,
   POP,
   CHILDREN,
   WINNERS,

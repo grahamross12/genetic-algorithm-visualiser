@@ -3,5 +3,13 @@ body {
 }
 
 .row {
+}
+
+.sidebarDiv {
+  width: 300px !important;
+}
+
+.wrapper {
+  width: 1000px;
   margin: auto;
 }
