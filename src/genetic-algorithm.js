@@ -186,31 +186,3 @@ export default class GeneticAlgorithm {
     return array;
   }
 }
-
-let pointsSet = new Set([
-  [1, 3],
-  [2, 5],
-  [1, 5],
-  [4, 10],
-  [24, 20],
-  [10, 8],
-]);
-let points = Array.from(pointsSet);
-
-const POP = 20;
-const CHILDREN = 10;
-const WINNERS = 5;
-const MUTATION_PROB = 0.1;
-
-const geneticAlgorithm = new GeneticAlgorithm(
-  points,
-  POP,
-  CHILDREN,
-  WINNERS,
-  MUTATION_PROB
-);
-
-geneticAlgorithm.nextGeneration();
-geneticAlgorithm.nextGeneration();
-geneticAlgorithm.nextGeneration();
-geneticAlgorithm.nextGeneration();
